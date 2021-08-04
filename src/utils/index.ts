@@ -30,7 +30,7 @@ export const useMount = (callback:()=>void) => {
 };
 
 //自定义hooks
-export const useDebounce = (value: any,delay: any)=>{
+export const useDebounce = (value: any,delay?: number)=>{
   const [debounceValue, setDebounceValue] = useState(value)
   useEffect(()=> {
     const timeout = setTimeout(()=> {
