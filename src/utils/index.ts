@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const isFalsy = (value:any) => (value === 0 ? false : !value);
+const isFalsy = (value:unknown) => (value === 0 ? false : !value);
 export const cleanObj = (obj:Record<string,unknown>) => {
   const newObj = { ...obj };
   console.log(obj);
@@ -30,7 +30,7 @@ export const useMount = (callback:()=>void) => {
 };
 
 //自定义hooks
-export const useDebounce = (value: any,delay?: number)=>{
+export const useDebounce = <T>(value: T,delay?: number)=>{
   const [debounceValue, setDebounceValue] = useState(value)
   useEffect(()=> {
     const timeout = setTimeout(()=> {

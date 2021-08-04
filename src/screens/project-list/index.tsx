@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import List from "./List";
 import SearchPanel from "./SearchPanel";
 import qs from "qs";
-import { useDebounce } from "ahooks";
-import { cleanObj, useMount } from "../../utils/index";
+// import { useDebounce } from "ahooks";
+import { cleanObj, useDebounce, useMount } from "../../utils/index";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -15,10 +15,13 @@ const ProjectListScreen = () => {
   const [users, setUsers] = useState([]);
   const [list, setList] = useState([]);
 
-  const debouncedValue = useDebounce(param, { wait: 2000 });
+  //自定义的hooks
+  const debouncedValue = useDebounce(param, 2000);
+  //ahooks的hooks
+  // const debouncedValue = useDebounce(param, { wait: 2000 });
 
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObj(param))}`)
+    fetch(`${apiUrl}/projects?${qs.stringify(cleanObj(debouncedValue))}`)
       .then((response) => {
         if (response.ok) {
           return response.json();
