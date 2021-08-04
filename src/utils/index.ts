@@ -42,3 +42,24 @@ export const useDebounce = <T>(value: T,delay?: number)=>{
   },[value,delay])
   return debounceValue
 }
+
+export const useArray = <T>(obj:T[]) => {
+  const [value, setValue] = useState(obj)// hello，请把作业写在这里吧，写完记得再对照作业要求检查一下
+
+  return {
+    value,
+    add:(item:T) => {
+      setValue([...value,item])
+    },
+    clear:() => {
+      setValue([])
+    },
+    removeIndex:(index:number) => {
+      const copy = [...value]
+      copy.splice(index,1)
+      setValue(copy)
+
+    }
+
+  }
+};
