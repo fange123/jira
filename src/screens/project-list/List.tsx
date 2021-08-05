@@ -1,6 +1,7 @@
 export interface IUsers {
   id: number;
   name: string;
+  token: string;
 }
 export interface IList {
   id: number;

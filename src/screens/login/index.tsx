@@ -1,18 +1,8 @@
+import { useAuth } from "context/auth-context";
 import React, { FormEvent } from "react";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const Login = () => {
-  const login = (params: { username: string; password: string }) => {
-    fetch(`${apiUrl}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(params),
-    })
-      .then((res) => res.json())
-      .then();
-  };
+  const { user, login, register } = useAuth();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     //要阻止表单提交的默认行为
@@ -25,6 +15,7 @@ const Login = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      用户名：{user?.name}
       <div>
         <label htmlFor="username">用户名</label>
         <input type="text" name="username" id="username" />
