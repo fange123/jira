@@ -1,8 +1,8 @@
-import { useAuth } from "context/auth-context";
+import { useAuth } from "../context/auth-context";
 import React, { FormEvent } from "react";
 
 const Login = () => {
-  const { user, login, register } = useAuth();
+  const { login } = useAuth();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     //要阻止表单提交的默认行为
@@ -15,7 +15,6 @@ const Login = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      用户名：{user?.name}
       <div>
         <label htmlFor="username">用户名</label>
         <input type="text" name="username" id="username" />
