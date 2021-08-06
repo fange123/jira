@@ -1,4 +1,6 @@
 import React, { ReactNode, useState } from "react";
+import { useMount } from "utils";
+import { initialUser } from "utils/http";
 import * as auth from "../auth-provider";
 import { IUsers } from "../screens/project-list/List";
 
@@ -24,6 +26,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (form: User) => auth.login(form).then(setUser);
   const register = (form: User) => auth.register(form).then(setUser);
   const logout = () => auth.logout().then(() => setUser(null));
+
+  useMount(() => {
+    initialUser().then(setUser);
+  });
 
   return (
     <AuthContext.Provider

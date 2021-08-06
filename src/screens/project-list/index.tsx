@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import List from "./List";
 import SearchPanel from "./SearchPanel";
-import qs from "qs";
 // import { useDebounce } from "ahooks";
 import { cleanObj, useDebounce, useMount } from "../../utils/index";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { useHttp } from "../../utils/http";
 
 const ProjectListScreen = () => {
   const [param, setParam] = useState({
@@ -14,6 +12,7 @@ const ProjectListScreen = () => {
   });
   const [users, setUsers] = useState([]);
   const [list, setList] = useState([]);
+  const client = useHttp();
 
   //自定义的hooks
   const debouncedValue = useDebounce(param, 2000);
@@ -21,27 +20,11 @@ const ProjectListScreen = () => {
   // const debouncedValue = useDebounce(param, { wait: 2000 });
 
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObj(debouncedValue))}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return Promise.reject("something went wrong!");
-        }
-      })
-      .then((data) => setList(data));
+    client("projects", { data: cleanObj(param) }).then(setList);
   }, [debouncedValue]);
 
   useMount(() => {
-    fetch(`${apiUrl}/users`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return Promise.reject("something went wrong!");
-        }
-      })
-      .then((data) => setUsers(data));
+    client("users").then(setUsers);
   });
   return (
     <>
