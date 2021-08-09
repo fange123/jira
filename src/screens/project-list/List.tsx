@@ -1,3 +1,6 @@
+import { Table } from "antd";
+import { ColumnsType } from "antd/lib/table";
+
 export interface IUsers {
   id: number;
   name: string;
@@ -16,28 +19,25 @@ interface IProps {
 }
 const List = (props: IProps) => {
   const { list, users } = props;
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>名称</th>
-          <th>负责人</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((list) => {
-          return (
-            <tr key={list.id}>
-              <td>{list.name}</td>
-              <td>
-                {users.find((item) => item.id === list.personId)?.name || "无"}
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
+  const columns: ColumnsType<IList> = [
+    {
+      title: "名称",
+      dataIndex: "name",
+      sorter: (a, b) => a.name.localeCompare(b.name),
+    },
+    {
+      title: "负责人",
+      render(_, record) {
+        return (
+          <span>
+            {users.find((item) => item.id === record.personId)?.name || "无"}
+          </span>
+        );
+      },
+    },
+  ];
+
+  return <Table columns={columns} dataSource={list} pagination={false} />;
 };
 
 export default List;

@@ -8,6 +8,7 @@ interface IConfig extends RequestInit{
   token?:string
 }
 
+
 //初始化user
 export const initialUser = async() => {
   let user  = null
@@ -57,5 +58,6 @@ if(config.method.toLocaleUpperCase() === 'GET'){
 
 export const useHttp = ()=> {
   const {user} = useAuth()
+  //ts中的typeof和js中的typeof不一样，ts中的typeof是把后面的变量的类型提取出来，这个变量肯定是个函数类型，Parameters<typeof 函数变量>就能读出函数的参数类型
   return (...[endPoint,config]:Parameters<typeof http>)=>http(endPoint,{...config,token:user?.token})
 }

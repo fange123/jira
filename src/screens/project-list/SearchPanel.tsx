@@ -1,3 +1,4 @@
+import { Form, Input, Select } from "antd";
 import { IUsers } from "./List";
 
 interface IProps {
@@ -13,24 +14,24 @@ const SearchPanel = (props: IProps) => {
   const { users, param, setParam } = props;
 
   return (
-    <form action="">
-      <input
+    <Form action="">
+      <Input
         type="text"
         value={param.name}
         onChange={(e) => setParam({ ...param, name: e.target.value })}
       />
-      <select
+      <Select
         value={param.personId}
-        onChange={(e) => setParam({ ...param, personId: e.target.value })}
+        onChange={(value) => setParam({ ...param, personId: value })}
       >
-        <option value="">负责人</option>
+        <Select.Option value="">负责人</Select.Option>
         {users.map((item) => (
-          <option value={item.id} key={item.id}>
+          <Select.Option value={item.id} key={item.id}>
             {item.name}
-          </option>
+          </Select.Option>
         ))}
-      </select>
-    </form>
+      </Select>
+    </Form>
   );
 };
 
