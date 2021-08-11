@@ -1,5 +1,6 @@
 import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
+import dayjs from "dayjs";
 
 export interface IUsers {
   id: number;
@@ -26,11 +27,25 @@ const List = (props: IProps) => {
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
+      title: "部门",
+      dataIndex: "organization",
+    },
+    {
       title: "负责人",
       render(_, record) {
         return (
           <span>
             {users.find((item) => item.id === record.personId)?.name || "无"}
+          </span>
+        );
+      },
+    },
+    {
+      title: "创建时间",
+      render(_, record) {
+        return (
+          <span>
+            {record.created ? dayjs(record.created).format("YYYY-MM-DD") : "无"}
           </span>
         );
       },

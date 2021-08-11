@@ -4,6 +4,7 @@ import SearchPanel from "./SearchPanel";
 // import { useDebounce } from "ahooks";
 import { cleanObj, useDebounce, useMount } from "../../utils/index";
 import { useHttp } from "../../utils/http";
+import styled from "styled-components";
 
 const ProjectListScreen = () => {
   const [param, setParam] = useState({
@@ -27,11 +28,16 @@ const ProjectListScreen = () => {
     client("users").then(setUsers);
   });
   return (
-    <>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel users={users} param={param} setParam={setParam} />
       <List list={list} users={users} />
-    </>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;
 
 export default ProjectListScreen;

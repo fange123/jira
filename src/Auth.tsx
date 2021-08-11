@@ -1,23 +1,37 @@
-import { Button } from "antd";
+import { Button, Dropdown, Menu } from "antd";
 import { useAuth } from "context/auth-context";
 import React from "react";
 import ProjectListScreen from "./screens/project-list";
 import styled from "styled-components";
+import { ReactComponent as SoftWearLogo } from "assets/software-logo.svg";
+import { Row } from "components/lib";
 
 interface IProps {}
 
 const Auth: React.FC<IProps> = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   return (
     <Container>
-      <Header>
-        <HeaderLeft>
-          <p>logo</p>
+      <Header between>
+        <HeaderLeft gap>
+          <SoftWearLogo width="18rem" color="rgb(38,132,255)" />
           <p>项目1</p>
           <p>项目2</p>
         </HeaderLeft>
         <HeaderRight>
-          <Button onClick={logout}>登出</Button>
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key="logout">
+                  <Button onClick={logout} type="link">
+                    登出
+                  </Button>
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <Button type="link">hi,{user?.name}</Button>
+          </Dropdown>
         </HeaderRight>
       </Header>
       <Main>
@@ -29,28 +43,19 @@ const Auth: React.FC<IProps> = () => {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 6rem 1fr 6rem;
-  grid-template-areas: "header" "main";
+  grid-template-rows: 6rem 1fr;
   height: 100vh;
 `;
 
-const Header = styled.header`
-  grid-area: header;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
+const Header = styled(Row)`
+  padding: 3.2rem;
+  box-shadow: 0 0 5px0 rgba(0, 0, 0, 0.1);
+  z-index: 1;
 `;
 
-const HeaderLeft = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
+const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
 
-const Main = styled.main`
-  grid-area: main;
-`;
+const Main = styled.main``;
 
 export default Auth;
