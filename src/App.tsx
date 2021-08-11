@@ -1,5 +1,3 @@
-import React from "react";
-import "./App.css";
 import Auth from "./Auth";
 import UnAuth from "./un-auth";
 import { useAuth } from "context/auth-context";

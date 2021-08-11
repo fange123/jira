@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
+import "./App.css";
 import { AppProvider } from "./context/index";
 import { loadDevTools } from "jira-dev-tool";
 import "antd/dist/antd.less";
