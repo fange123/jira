@@ -28,8 +28,8 @@ const ProjectListScreen = () => {
   });
   return (
     <>
-      <List list={list} users={users} />
       <SearchPanel users={users} param={param} setParam={setParam} />
+      <List list={list} users={users} />
     </>
   );
 };
