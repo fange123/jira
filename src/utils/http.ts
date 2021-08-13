@@ -23,7 +23,7 @@ export const initialUser = async() => {
 }
 
 
-export const http = (endPoint:string,{data,token,headers,...customConfig}:IConfig = {})=> {
+export const http = async (endPoint:string,{data,token,headers,...customConfig}:IConfig = {})=> {
 const config = {
   method:'GET',
   headers:{
@@ -39,24 +39,22 @@ if(config.method.toLocaleUpperCase() === 'GET'){
   config.body = JSON.stringify(data || {})
 }
 
-  return window.fetch(`${apiUrl}/${endPoint}`,config).then((res)=> {
-    if(res.status === 401){
-      auth.logout()
-      window.location.reload()
-      return Promise.reject('请重新登录')
-    }
-    const data = res.json()
-    if(res.ok){
-      return data
-    }else {
-      return Promise.reject(data)
-    }
+  const res = await window.fetch(`${apiUrl}/${endPoint}`, config);
+  if (res.status === 401) {
+    auth.logout();
+    window.location.reload();
+    return Promise.reject('请重新登录');
+  }
+  const date = res.json();
+  if (res.ok) {
+    return date;
+  } else {
+    return Promise.reject(date);
+  }
 
-  }).then((res)=> {
-    return res
-  })
 
 }
+
 
 export const useHttp = ()=> {
   const {user} = useAuth()
