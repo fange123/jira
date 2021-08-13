@@ -11,7 +11,7 @@ export interface IList {
   id: number;
   key: number;
   name: string;
-  personId: number;
+  personId: string;
   organization: string;
   created: string;
 }
@@ -36,7 +36,8 @@ const List = (props: IProps) => {
       render(_, record) {
         return (
           <span>
-            {users.find((item) => item.id === record.personId)?.name || "无"}
+            {users.find((item) => item.id.toString() === record.personId)
+              ?.name || "无"}
           </span>
         );
       },
