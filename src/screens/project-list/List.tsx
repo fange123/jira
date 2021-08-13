@@ -1,5 +1,5 @@
 import { Table } from "antd";
-import { ColumnsType } from "antd/lib/table";
+import { ColumnsType, TableProps } from "antd/lib/table";
 import dayjs from "dayjs";
 
 export interface IUsers {
@@ -15,14 +15,11 @@ export interface IList {
   organization: string;
   created: string;
 }
-interface IProps {
+interface IProps extends TableProps<IList> {
   users: IUsers[];
-  list: IList[];
 }
 const List = (props: IProps) => {
-  const { list, users } = props;
-  //给list添加唯一key
-  list.forEach((item) => (item.key = Math.random()));
+  const { users, ...param } = props;
 
   const columns: ColumnsType<IList> = [
     {
@@ -56,7 +53,7 @@ const List = (props: IProps) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={list} pagination={false} />;
+  return <Table columns={columns} pagination={false} {...param} rowKey="id" />;
 };
 
 export default List;

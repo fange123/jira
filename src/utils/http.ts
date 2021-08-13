@@ -45,14 +45,16 @@ if(config.method.toLocaleUpperCase() === 'GET'){
       window.location.reload()
       return Promise.reject('请重新登录')
     }
+    const data = res.json()
     if(res.ok){
-      return res.json()
-
+      return data
     }else {
-      return Promise.reject(res.json())
-
+      return Promise.reject(data)
     }
-  }).then()
+
+  }).then((res)=> {
+    return res
+  })
 
 }
 
