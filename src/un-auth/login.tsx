@@ -1,8 +1,15 @@
 import { useAuth } from "../context/auth-context";
 import { Button, Form, Input } from "antd";
+import useAsync from "utils/http-async";
 
-const Login = () => {
+interface IProps {
+  onError: (error: Error) => void;
+}
+
+const Login = (props: IProps) => {
+  const { onError } = props;
   const { login } = useAuth();
+  const { isLoading, run } = useAsync();
 
   const handleSubmit = (values: { username: string; password: string }) => {
     login(values);

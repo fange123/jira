@@ -1,4 +1,4 @@
-import { Button, Card, Divider } from "antd";
+import { Button, Card, Divider, Typography } from "antd";
 import React, { useState } from "react";
 import Login from "./login";
 import Register from "./register";
@@ -11,13 +11,21 @@ interface IProps {}
 
 const Index: React.FC<IProps> = () => {
   const [isRegister, setIsRegister] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
   return (
     <Container>
       <BackGround />
       <Header />
       <BoxShadowCard>
         <Title>{isRegister ? "请登录" : "请注册"}</Title>
-        {isRegister ? <Login /> : <Register />}
+        <Typography.Text type="danger">
+          {error ? error.message : null}
+        </Typography.Text>
+        {isRegister ? (
+          <Login onError={setError} />
+        ) : (
+          <Register onError={setError} />
+        )}
         <Divider />
         <Button onClick={() => setIsRegister(!isRegister)} type="link">
           {isRegister ? "没有账号？注册新账号" : "已有账号了，直接登录"}
