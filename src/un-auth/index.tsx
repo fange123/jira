@@ -19,7 +19,7 @@ const Index: React.FC<IProps> = () => {
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
         {isRegister ? <Login /> : <Register />}
         <Divider />
-        <Button onClick={() => setIsRegister(!isRegister)}>
+        <Button onClick={() => setIsRegister(!isRegister)} type="link">
           {isRegister ? "没有账号？注册新账号" : "已有账号了，直接登录"}
         </Button>
       </BoxShadowCard>

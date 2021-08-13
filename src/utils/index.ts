@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
 const isFalsy = (value:unknown) => (value === 0 ? false : !value);
+// const isVoid = (value:unknown)=> value === undefined || '' || null
+
 export const cleanObj = (obj:Record<string,unknown>) => {
   const newObj = { ...obj };
-  console.log(obj);
   for (const key in newObj) {
     if (isFalsy(newObj[key])) {
       delete newObj[key];
@@ -12,12 +13,12 @@ export const cleanObj = (obj:Record<string,unknown>) => {
   return newObj;
 };
 
-// export const cleanObj = (object) => {
+// export const cleanObj = (object:{[key:string]:unknown}) => {
 //   const result = { ...object };
 //   Object.keys(result).forEach((key) => {
 //     // 0
 //     const value = result[key];
-//     if (isFalsy(value)) {
+//     if (isVoid(value)) {
 //       delete result[key];
 //     }
 //   });

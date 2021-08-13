@@ -9,6 +9,7 @@ export interface IUsers {
 }
 export interface IList {
   id: number;
+  key: number;
   name: string;
   personId: number;
   organization: string;
@@ -20,6 +21,9 @@ interface IProps {
 }
 const List = (props: IProps) => {
   const { list, users } = props;
+  //给list添加唯一key
+  list.forEach((item) => (item.key = Math.random()));
+
   const columns: ColumnsType<IList> = [
     {
       title: "名称",
