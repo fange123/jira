@@ -23,7 +23,7 @@ export const initialUser = async() => {
 }
 
 
-export const http = async (endPoint:string,{data,token,headers,...customConfig}:IConfig = {})=> {
+export const http =  async (endPoint:string,{data,token,headers,...customConfig}:IConfig = {})=> {
 const config = {
   method:'GET',
   headers:{
@@ -39,19 +39,18 @@ if(config.method.toLocaleUpperCase() === 'GET'){
   config.body = JSON.stringify(data || {})
 }
 
-  const res = await window.fetch(`${apiUrl}/${endPoint}`, config);
+ const res = await window.fetch(`${apiUrl}/${endPoint}`, config);
   if (res.status === 401) {
     auth.logout();
     window.location.reload();
     return Promise.reject('请重新登录');
   }
-  const date = res.json();
+  const date = await res.json();
   if (res.ok) {
     return date;
   } else {
-    return Promise.reject(date);
+    return await Promise.reject(date);
   }
-
 
 }
 

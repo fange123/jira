@@ -7,12 +7,14 @@ interface IProps {
 }
 
 const Login = (props: IProps) => {
-  const { onError } = props;
   const { login } = useAuth();
-  const { isLoading, run } = useAsync();
+  const { onError } = props;
+  const { isLoading, run } = useAsync(undefined, {
+    throwOnError: true,
+  });
 
   const handleSubmit = (values: { username: string; password: string }) => {
-    login(values);
+    run(login(values).catch(onError));
   };
 
   return (
@@ -32,7 +34,7 @@ const Login = (props: IProps) => {
         <Input type="password" name="password" id="password" />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={isLoading}>
           登录
         </Button>
       </Form.Item>

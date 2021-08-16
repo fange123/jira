@@ -27,7 +27,13 @@ const Index: React.FC<IProps> = () => {
           <Register onError={setError} />
         )}
         <Divider />
-        <Button onClick={() => setIsRegister(!isRegister)} type="link">
+        <Button
+          onClick={() => {
+            setError(null);
+            setIsRegister(!isRegister);
+          }}
+          type="link"
+        >
           {isRegister ? "没有账号？注册新账号" : "已有账号了，直接登录"}
         </Button>
       </BoxShadowCard>

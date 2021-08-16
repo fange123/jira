@@ -1,5 +1,6 @@
 import { useAuth } from "../context/auth-context";
 import { Button, Form, Input } from "antd";
+import useAsync from "utils/http-async";
 
 interface IProps {
   onError: (error: Error) => void;
@@ -8,6 +9,7 @@ interface IProps {
 const Register = (props: IProps) => {
   const { onError } = props;
   const { register } = useAuth();
+  const { isLoading, run } = useAsync();
 
   const handleSubmit = ({
     c_password,
@@ -21,7 +23,7 @@ const Register = (props: IProps) => {
       onError(new Error("请输入相同的密码"));
       return;
     }
-    register(values).catch(onError);
+    run(register(values).catch(onError));
   };
 
   return (
@@ -45,7 +47,7 @@ const Register = (props: IProps) => {
         <Input type="password" name="c_password" />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={isLoading}>
           注册
         </Button>
       </Form.Item>

@@ -13,7 +13,16 @@ const initialDefaultState:IState<null> = {
 
 }
 
-const useAsync = <D>(initialState?:IState<D>)=> {
+const defaultConfig = {
+  throwOnError:false
+}
+
+const useAsync = <D>(initialState?:IState<D>,initialConfig?:typeof defaultConfig)=> {
+
+  const config = {
+    ...defaultConfig,
+    initialConfig
+  }
   const [state, setState] = useState<IState<D>>({
     ...initialDefaultState,
     ...initialState
@@ -34,18 +43,20 @@ const useAsync = <D>(initialState?:IState<D>)=> {
   })
 }
 
-const run = (promise:Promise<D>)=> {
+const run = async (promise:Promise<D>)=> {
   if(!promise || !promise.then){
     throw new Error('请输入 Promise 类型数据')
   }
   setState({...state,stat:'loading'})
-  return promise.then(data=> {
+  try {
+    const data = await promise
     setData(data)
     return data
-  }).catch(error => {
+  } catch (error) {
     setError(error)
+    if(config.throwOnError) return Promise.reject(error)
     return error
-  })
+  }
 
 }
 
