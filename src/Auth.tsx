@@ -10,8 +10,10 @@ interface IProps {}
 
 const Auth: React.FC<IProps> = () => {
   const { logout, user } = useAuth();
+  const value: any = undefined;
   return (
     <Container>
+      {value.notExist}
       <Header between>
         <HeaderLeft gap>
           <SoftWearLogo width="18rem" color="rgb(38,132,255)" />
