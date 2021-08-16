@@ -1,3 +1,5 @@
+import { Spin, Typography } from "antd";
+import { DevTools } from "jira-dev-tool";
 import styled from "styled-components";
 
 export const Row = styled.div<{
@@ -22,3 +24,23 @@ export const Row = styled.div<{
         : undefined};
   }
 `;
+
+const FullPage = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const FullPageLoading = () => (
+  <FullPage>
+    <Spin size="large"></Spin>
+  </FullPage>
+);
+
+export const FullPageError = ({ error }: { error: Error | null }) => (
+  <FullPage>
+    <DevTools />
+    <Typography.Text type="danger">{error?.message}</Typography.Text>
+  </FullPage>
+);
