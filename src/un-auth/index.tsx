@@ -6,6 +6,7 @@ import styled from "styled-components";
 import logo from "assets/logo.svg";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
+import { Helmet } from "react-helmet";
 
 interface IProps {}
 
@@ -14,6 +15,9 @@ const Index: React.FC<IProps> = () => {
   const [error, setError] = useState<Error | null>(null);
   return (
     <Container>
+      <Helmet>
+        <title>请登录或注册以继续</title>
+      </Helmet>
       <BackGround />
       <Header />
       <BoxShadowCard>
