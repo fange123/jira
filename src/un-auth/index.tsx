@@ -7,17 +7,17 @@ import logo from "assets/logo.svg";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
 import { Helmet } from "react-helmet";
+import { useDocumentTitle } from "utils";
 
 interface IProps {}
 
 const Index: React.FC<IProps> = () => {
   const [isRegister, setIsRegister] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
+  useDocumentTitle("注册或登录", false);
+
   return (
     <Container>
-      <Helmet>
-        <title>请登录或注册以继续</title>
-      </Helmet>
       <BackGround />
       <Header />
       <BoxShadowCard>
