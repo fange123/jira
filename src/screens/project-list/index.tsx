@@ -7,7 +7,6 @@ import styled from "styled-components";
 import { Typography } from "antd";
 import { useProject } from "utils/project";
 import { useUsers } from "utils/user";
-import { Helmet } from "react-helmet";
 
 const ProjectListScreen = () => {
   const { Text } = Typography;

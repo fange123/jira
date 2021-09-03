@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const isFalsy = (value:unknown) => (value === 0 ? false : !value);
 // const isVoid = (value:unknown)=> value === undefined || '' || null
@@ -67,7 +67,9 @@ export const useArray = <T>(obj:T[]) => {
 };
 
 export const useDocumentTitle = (title:string,keepOnUnmount:boolean = true)=> {
-  const oldTitle = document.title
+  //报错页面初始的值，在之后的生命周期中都不会改变
+  //!使用useRef
+  const oldTitle = useRef(document.title).current
   useEffect(()=> {
     document.title = title
   },[title])
@@ -78,6 +80,6 @@ export const useDocumentTitle = (title:string,keepOnUnmount:boolean = true)=> {
          document.title = oldTitle
       }
     }
-  },[])
+  },[keepOnUnmount, oldTitle])
 
 }
