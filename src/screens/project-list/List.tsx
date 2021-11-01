@@ -1,6 +1,7 @@
 import { Table } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 export interface IUsers {
   id: number;
@@ -26,6 +27,9 @@ const List = (props: IProps) => {
       title: "名称",
       dataIndex: "name",
       sorter: (a, b) => a.name.localeCompare(b.name),
+      render: (name, record) => {
+        return <Link to={String(record.id)}>{name}</Link>;
+      },
     },
     {
       title: "部门",
