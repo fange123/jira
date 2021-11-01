@@ -5,9 +5,10 @@ import ProjectListScreen from "./screens/project-list";
 import styled from "styled-components";
 import { ReactComponent as SoftWearLogo } from "assets/software-logo.svg";
 import { Row } from "components/lib";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import ProjectScreen from "./screens/project";
+import { resetRoute } from "utils";
 
 interface IProps {}
 
@@ -20,6 +21,7 @@ const Auth: React.FC<IProps> = () => {
           <Routes>
             <Route path="/projects" element={<ProjectListScreen />} />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
+            <Route path="/" element={<Navigate to="/projects" />} />
           </Routes>
         </Router>
       </Main>
@@ -31,7 +33,9 @@ const PageHeader = () => {
   return (
     <Header between>
       <HeaderLeft gap>
-        <SoftWearLogo width="18rem" color="rgb(38,132,255)" />
+        <Button type="link" onClick={resetRoute}>
+          <SoftWearLogo width="18rem" color="rgb(38,132,255)" />
+        </Button>
         <p>项目1</p>
         <p>项目2</p>
       </HeaderLeft>
