@@ -38,7 +38,6 @@ export const register = async (params: { username: string; password: string }) =
   });
   const date = await res.json();
   if (res.ok) {
-    console.log(date.user);
 
     return handleUserResponse(date.user);
   } else {

@@ -11,7 +11,6 @@ export const useProject = (param?:Partial<IList>)=> {
     run(client("projects", { data: cleanObj(param || {}) }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [param]);
-  console.log( error?.message);
 
 
   return {error,...result}

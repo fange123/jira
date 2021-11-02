@@ -7,14 +7,17 @@ import styled from "styled-components";
 import { Typography } from "antd";
 import { useProject } from "utils/project";
 import { useUsers } from "utils/user";
+import { useUrlQueryParam } from "utils/url";
 
 const ProjectListScreen = () => {
   const { Text } = Typography;
 
-  const [param, setParam] = useState({
+  const [, setParam] = useState({
     name: "",
     personId: "",
   });
+
+  const [param] = useUrlQueryParam(["name", "personId"]);
   useDocumentTitle("项目列表", false);
   //自定义的hooks
   const debouncedValue = useDebounce(param, 2000);
@@ -33,6 +36,8 @@ const ProjectListScreen = () => {
     </Container>
   );
 };
+
+ProjectListScreen.whyDidYouRender = true;
 
 const Container = styled.div`
   padding: 3.2rem;
