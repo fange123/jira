@@ -12,12 +12,8 @@ import { useUrlQueryParam } from "utils/url";
 const ProjectListScreen = () => {
   const { Text } = Typography;
 
-  const [, setParam] = useState({
-    name: "",
-    personId: "",
-  });
+  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
 
-  const [param] = useUrlQueryParam(["name", "personId"]);
   useDocumentTitle("项目列表", false);
   //自定义的hooks
   const debouncedValue = useDebounce(param, 2000);

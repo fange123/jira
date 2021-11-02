@@ -1,16 +1,26 @@
 // 返回页面url中，指定键的参数值
 
 import { useMemo } from "react"
-import { useSearchParams } from "react-router-dom"
+import { URLSearchParamsInit, useSearchParams } from "react-router-dom"
+import { cleanObj } from "utils"
 
 export const useUrlQueryParam = <K extends string>(keys:K[])=> {
   const [searchParams,setSearchParams] = useSearchParams()
 
   return [
+
+    //+useMemo可以避免重复渲染
    useMemo(() =>  keys.reduce((prev:{[key in K]:string},key:K)=> {
       return {...prev,[key]:searchParams.get(key) || ''}
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },{} as {[key in K] : string}), [searchParams]),setSearchParams
+    },{} as {[key in K] : string}), [searchParams]),
+    (params:Partial<{[key in K]:unknown}>)=> {
+
+      //~Object.fromEntries把键值对转换成对象！不理解为毛要这样搞啊，等之后再来分析一下
+      const o =cleanObj({...Object.fromEntries(searchParams),...params}) as URLSearchParamsInit
+      return setSearchParams(o)
+
+    }
   ] as const
 }
 
