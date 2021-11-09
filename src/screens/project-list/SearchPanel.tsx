@@ -1,12 +1,10 @@
-import { Form, Input, Select } from "antd";
-import { IUsers } from "./List";
+import { Form, Input } from "antd";
+import { IList, IUsers } from "./List";
+import UserSelect from "components/user-select";
 
 interface IProps {
   users: IUsers[];
-  param: {
-    name: string;
-    personId: string;
-  };
+  param: Partial<Pick<IList, "name" | "personId">>;
   setParam: (param: IProps["param"]) => void;
 }
 
@@ -24,17 +22,11 @@ const SearchPanel = (props: IProps) => {
         />
       </Form.Item>
       <Form.Item>
-        <Select
+        <UserSelect
+          defaultOptionName="负责人"
           value={param.personId}
           onChange={(value) => setParam({ ...param, personId: value })}
-        >
-          <Select.Option value="">负责人</Select.Option>
-          {users.map((item) => (
-            <Select.Option value={String(item.id)} key={item.id}>
-              {item.name}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
     </Form>
   );

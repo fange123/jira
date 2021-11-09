@@ -1,4 +1,3 @@
-import { useState } from "react";
 import List from "./List";
 import SearchPanel from "./SearchPanel";
 // import { useDebounce } from "ahooks";
@@ -7,19 +6,17 @@ import styled from "styled-components";
 import { Typography } from "antd";
 import { useProject } from "utils/project";
 import { useUsers } from "utils/user";
-import { useUrlQueryParam } from "utils/url";
+import { useProjectsSearchParam } from "./utils";
 
 const ProjectListScreen = () => {
   const { Text } = Typography;
-
-  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
+  const [param, setParam] = useProjectsSearchParam();
 
   useDocumentTitle("项目列表", false);
   //自定义的hooks
-  const debouncedValue = useDebounce(param, 2000);
   //ahooks的hooks
   // const debouncedValue = useDebounce(param, { wait: 2000 });
-  const { isLoading, error, data: list } = useProject(debouncedValue);
+  const { isLoading, error, data: list } = useProject(useDebounce(param, 2000));
 
   const { data: users } = useUsers();
 
