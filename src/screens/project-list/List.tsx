@@ -2,6 +2,8 @@ import { Table } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import Pin from "components/pin";
+import { useEditProject } from "utils/project";
 
 export interface IUsers {
   id: number;
@@ -15,14 +17,27 @@ export interface IList {
   personId: number;
   organization: string;
   created: string;
+  pin: boolean;
 }
 interface IProps extends TableProps<IList> {
   users: IUsers[];
 }
 const List = (props: IProps) => {
   const { users, ...param } = props;
+  const { mutate } = useEditProject();
+
+  //~这种写法叫做函数柯里化，在调用前期就知道的参数是id,在调用时知道的参数是pin
+  const handleEdit = (id: number) => (pin: boolean) => mutate({ id, pin });
 
   const columns: ColumnsType<IList> = [
+    {
+      title: <Pin checked={true} disabled={true} />,
+      render: (_, record) => {
+        return (
+          <Pin checked={record.pin} onCheckedChange={handleEdit(record.id)} />
+        );
+      },
+    },
     {
       title: "名称",
       dataIndex: "name",

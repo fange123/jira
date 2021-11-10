@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const SearchPanel = (props: IProps) => {
-  const { users, param, setParam } = props;
+  const { param, setParam } = props;
 
   return (
     <Form action="" layout="inline" style={{ marginBottom: "2rem" }}>

@@ -53,7 +53,7 @@ const run = async (promise:Promise<D>)=> {
     setData(data)
     return data
   } catch (error) {
-    setError(error)
+    setError(error as Error)
     if(config.throwOnError) return Promise.reject(error)
     return error
   }
@@ -69,6 +69,8 @@ const run = async (promise:Promise<D>)=> {
     setError,
     setData,
     run,
+    //retry被调用时重新调用一次run,让state刷新一遍
+    retry:()=>{},
     ...state
 
   }
