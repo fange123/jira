@@ -9,8 +9,7 @@ export const useProject = (param?:Partial<IList>)=> {
    const { run, error, ...result } = useAsync<IList[]>();
     useEffect(() => {
     run(client("projects", { data: cleanObj(param || {}) }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [param]);
+  }, [param,client,run]);
 
 
   return {error,...result}

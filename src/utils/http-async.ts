@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { useMountedRef } from "utils"
 
 
@@ -32,26 +32,26 @@ const useAsync = <D>(initialState?:IState<D>,initialConfig?:typeof defaultConfig
 
   const mountedRef = useMountedRef()
 
-  const setData = (data: D)=> {
+  const setData = useCallback((data: D)=> {
   setState({
     error:null,
     data,
     stat:'success'
   })
-}
-  const setError = (error: Error | null)=> {
+},[])
+  const setError = useCallback((error: Error | null)=> {
   setState({
     error:error,
     data:null,
     stat:'error'
   })
-}
+},[])
 
-const run = async (promise:Promise<D>)=> {
+const run = useCallback(async (promise:Promise<D>)=> {
   if(!promise || !promise.then){
     throw new Error('请输入 Promise 类型数据')
   }
-  setState({...state,stat:'loading'})
+  setState(prevState=>({...prevState,stat:'loading'}))
   try {
     const data = await promise
     if(mountedRef.current)
@@ -63,7 +63,7 @@ const run = async (promise:Promise<D>)=> {
     return error
   }
 
-}
+},[config.throwOnError, mountedRef, setData,setError])
 
 
   return{

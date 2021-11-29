@@ -1,6 +1,7 @@
 import qs from 'qs'
 import {useAuth} from '../context/auth-context'
 import  * as auth from '../auth-provider'
+import { useCallback } from 'react';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 interface IConfig extends RequestInit{
@@ -58,5 +59,5 @@ if(config.method.toLocaleUpperCase() === 'GET'){
 export const useHttp = ()=> {
   const {user} = useAuth()
   //ts中的typeof和js中的typeof不一样，ts中的typeof是把后面的变量的类型提取出来，这个变量肯定是个函数类型，Parameters<typeof 函数变量>就能读出函数的参数类型
-  return (...[endPoint,config]:Parameters<typeof http>)=>http(endPoint,{...config,token:user?.token})
+  return useCallback((...[endPoint,config]:Parameters<typeof http>)=>http(endPoint,{...config,token:user?.token}),[user?.token])
 }
