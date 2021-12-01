@@ -1,9 +1,10 @@
-import { Table } from "antd";
+import { Dropdown, Menu, Table } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import Pin from "components/pin";
 import { useEditProject } from "utils/project";
+import { ButtonNoPadding } from "components/lib";
 
 export interface IUsers {
   id: number;
@@ -21,9 +22,11 @@ export interface IList {
 }
 interface IProps extends TableProps<IList> {
   users: IUsers[];
+  buttonProject: JSX.Element;
 }
 const List = (props: IProps) => {
-  const { users, ...param } = props;
+  const { users, buttonProject, ...param } = props;
+
   const { mutate } = useEditProject();
 
   //~这种写法叫做函数柯里化，在调用前期就知道的参数是id,在调用时知道的参数是pin
@@ -33,9 +36,10 @@ const List = (props: IProps) => {
     {
       title: <Pin checked={true} disabled={true} />,
       render: (_, record) => {
-        return (
-          <Pin checked={record.pin} onCheckedChange={handleEdit(record.id)} />
-        );
+        //bug:由于数据返回乱码问题，暂时这样处理
+        const pin = (record as any)["14"] === "t" ? true : false;
+
+        return <Pin checked={pin} onCheckedChange={handleEdit(record.id)} />;
       },
     },
     {
@@ -67,6 +71,21 @@ const List = (props: IProps) => {
           <span>
             {record.created ? dayjs(record.created).format("YYYY-MM-DD") : "无"}
           </span>
+        );
+      },
+    },
+    {
+      render: () => {
+        return (
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key="edit">{buttonProject}</Menu.Item>
+              </Menu>
+            }
+          >
+            <ButtonNoPadding type="link">...</ButtonNoPadding>
+          </Dropdown>
         );
       },
     },

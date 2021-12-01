@@ -21,10 +21,10 @@ export const useEditProject = ()=> {
   const client = useHttp()
   const mutate =(params:Partial<IList>)=> {
 
-    return run(client(`projects/${params.id}`,{
-      data:params,
-      method:'PATCH'
-    }))
+    return run(client(`projects/${params.id}`, {
+        method: "PATCH",
+        data: params,
+      }))
 
   }
 

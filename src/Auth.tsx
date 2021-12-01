@@ -1,60 +1,96 @@
 import { Button, Dropdown, Menu } from "antd";
 import { useAuth } from "context/auth-context";
-import React from "react";
+import React, { useState } from "react";
 import ProjectListScreen from "./screens/project-list";
 import styled from "styled-components";
 import { ReactComponent as SoftWearLogo } from "assets/software-logo.svg";
-import { Row } from "components/lib";
+import { ButtonNoPadding, Row } from "components/lib";
 import { Routes, Route, Navigate } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import ProjectScreen from "./screens/project";
 import { resetRoute } from "utils";
+import ProjectModal from "./screens/project-list/ProjectModal";
+import ProjectPopover from "./components/ProjectPopover";
 
 interface IProps {}
 
 const Auth: React.FC<IProps> = () => {
+  const [projectOpenModal, setProjectOpenModal] = useState<boolean>(false);
+  const PageHeader = () => {
+    return (
+      <Header between>
+        <HeaderLeft gap>
+          <ButtonNoPadding type="link" onClick={resetRoute}>
+            <SoftWearLogo width="18rem" color="rgb(38,132,255)" />
+          </ButtonNoPadding>
+          <ProjectPopover
+            //*组件组合和状态提升，虽然都是一层层往下传，但是子组件只需要渲染得到的组件即可
+            buttonProject={
+              <ButtonNoPadding
+                type="link"
+                onClick={() => setProjectOpenModal(true)}
+              >
+                新增
+              </ButtonNoPadding>
+            }
+          />
+        </HeaderLeft>
+        <HeaderRight>
+          <User />
+        </HeaderRight>
+      </Header>
+    );
+  };
+
+  const User = () => {
+    const { logout, user } = useAuth();
+    return (
+      <Dropdown
+        overlay={
+          <Menu>
+            <Menu.Item key="logout">
+              <Button onClick={logout} type="link">
+                登出
+              </Button>
+            </Menu.Item>
+          </Menu>
+        }
+      >
+        <Button type="link">hi,{user?.name}</Button>
+      </Dropdown>
+    );
+  };
   return (
     <Container>
       <PageHeader />
       <Main>
         <Router>
           <Routes>
-            <Route path="/projects" element={<ProjectListScreen />} />
+            <Route
+              path="/projects"
+              element={
+                <ProjectListScreen
+                  buttonProject={
+                    <ButtonNoPadding
+                      type="link"
+                      onClick={() => setProjectOpenModal(true)}
+                    >
+                      创建项目
+                    </ButtonNoPadding>
+                  }
+                />
+              }
+            />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
             <Route path="/" element={<Navigate to="/projects" />} />
           </Routes>
         </Router>
       </Main>
+      <ProjectModal
+        projectOpenModal={projectOpenModal}
+        onClose={() => setProjectOpenModal(false)}
+      />
     </Container>
-  );
-};
-const PageHeader = () => {
-  const { logout, user } = useAuth();
-  return (
-    <Header between>
-      <HeaderLeft gap>
-        <Button type="link" onClick={resetRoute}>
-          <SoftWearLogo width="18rem" color="rgb(38,132,255)" />
-        </Button>
-        <p>项目1</p>
-        <p>项目2</p>
-      </HeaderLeft>
-      <HeaderRight>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="logout">
-                <Button onClick={logout} type="link">
-                  登出
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
-        >
-          <Button type="link">hi,{user?.name}</Button>
-        </Dropdown>
-      </HeaderRight>
-    </Header>
   );
 };
 
