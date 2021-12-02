@@ -8,14 +8,15 @@ import { useProject } from "utils/project";
 import { useUsers } from "utils/user";
 import { useProjectsSearchParam } from "./utils";
 import { Row } from "components/lib";
+import { useDispatch } from "react-redux";
+import { projectActionList } from "./project-list-slice";
 
-interface IProps {
-  buttonProject: JSX.Element;
-}
+interface IProps {}
 
 const ProjectListScreen = (props: IProps) => {
   const { Text } = Typography;
   const [param, setParam] = useProjectsSearchParam();
+  const dispatch = useDispatch();
 
   useDocumentTitle("项目列表", false);
   //自定义的hooks
@@ -29,16 +30,13 @@ const ProjectListScreen = (props: IProps) => {
     <Container>
       <Row between={true}>
         <h1>项目列表</h1>
-        {props.buttonProject}
+        <Button onClick={() => dispatch(projectActionList.openProjectModal())}>
+          创建项目
+        </Button>
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       {error ? <Text type="danger">{error.message}</Text> : null}
-      <List
-        dataSource={list || []}
-        users={users || []}
-        loading={isLoading}
-        buttonProject={props.buttonProject}
-      />
+      <List dataSource={list || []} users={users || []} loading={isLoading} />
     </Container>
   );
 };

@@ -1,14 +1,15 @@
 import { Divider, List, Popover, Typography } from "antd";
 import React from "react";
 import { useProject } from "utils/project";
+import { ButtonNoPadding } from "./lib";
+import { useDispatch } from "react-redux";
+import { projectActionList } from "screens/project-list/project-list-slice";
 
-interface IProps {
-  buttonProject: JSX.Element;
-}
+interface IProps {}
 
 const ProjectPopover: React.FC<IProps> = (props) => {
-  const { buttonProject } = props;
   const { data: projects } = useProject();
+  const dispatch = useDispatch();
   const projectPin = projects?.filter((item: any) =>
     item["14"] === "t" ? true : false
   );
@@ -23,7 +24,12 @@ const ProjectPopover: React.FC<IProps> = (props) => {
         ))}
       </List>
       <Divider />
-      {buttonProject}
+      <ButtonNoPadding
+        type="link"
+        onClick={() => dispatch(projectActionList.openProjectModal())}
+      >
+        新建项目
+      </ButtonNoPadding>
     </div>
   );
   return (

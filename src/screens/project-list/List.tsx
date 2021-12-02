@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Pin from "components/pin";
 import { useEditProject } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
+import { useDispatch } from "react-redux";
+import { projectActionList } from "./project-list-slice";
 
 export interface IUsers {
   id: number;
@@ -22,12 +24,12 @@ export interface IList {
 }
 interface IProps extends TableProps<IList> {
   users: IUsers[];
-  buttonProject: JSX.Element;
 }
 const List = (props: IProps) => {
-  const { users, buttonProject, ...param } = props;
+  const { users, ...param } = props;
 
   const { mutate } = useEditProject();
+  const dispatch = useDispatch();
 
   //~这种写法叫做函数柯里化，在调用前期就知道的参数是id,在调用时知道的参数是pin
   const handleEdit = (id: number) => (pin: boolean) => mutate({ id, pin });
@@ -80,7 +82,16 @@ const List = (props: IProps) => {
           <Dropdown
             overlay={
               <Menu>
-                <Menu.Item key="edit">{buttonProject}</Menu.Item>
+                <Menu.Item key="edit">
+                  <ButtonNoPadding
+                    type="link"
+                    onClick={() =>
+                      dispatch(projectActionList.openProjectModal())
+                    }
+                  >
+                    编辑
+                  </ButtonNoPadding>
+                </Menu.Item>
               </Menu>
             }
           >
