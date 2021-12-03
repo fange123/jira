@@ -6,7 +6,7 @@ import useAsync from "utils/http-async";
 import * as auth from "../auth-provider";
 import { IUsers } from "../screens/project-list/List";
 
-interface User {
+export interface User {
   password: string;
   username: string;
 }
