@@ -28,19 +28,22 @@ const List = (props: IProps) => {
   const { users, ...param } = props;
 
   const { mutate } = useEditProject();
-  const { open } = useProjectModal();
+  const { startEdit } = useProjectModal();
 
   //~这种写法叫做函数柯里化，在调用前期就知道的参数是id,在调用时知道的参数是pin
   const handleEdit = (id: number) => (pin: boolean) => mutate({ id, pin });
+
+  const editProject = (id: number) => () => startEdit(id);
 
   const columns: ColumnsType<IList> = [
     {
       title: <Pin checked={true} disabled={true} />,
       render: (_, record) => {
         //bug:由于数据返回乱码问题，暂时这样处理
-        const pin = (record as any)["14"] === "t" ? true : false;
 
-        return <Pin checked={pin} onCheckedChange={handleEdit(record.id)} />;
+        return (
+          <Pin checked={record.pin} onCheckedChange={handleEdit(record.id)} />
+        );
       },
     },
     {
@@ -76,15 +79,19 @@ const List = (props: IProps) => {
       },
     },
     {
-      render: () => {
+      render: (_, record) => {
         return (
           <Dropdown
             overlay={
               <Menu>
                 <Menu.Item key="edit">
-                  <ButtonNoPadding type="link" onClick={open}>
-                    编辑项目
+                  <ButtonNoPadding type="link" onClick={editProject(record.id)}>
+                    编辑
                   </ButtonNoPadding>
+                </Menu.Item>
+
+                <Menu.Item key="delete">
+                  <ButtonNoPadding type="link">删除</ButtonNoPadding>
                 </Menu.Item>
               </Menu>
             }

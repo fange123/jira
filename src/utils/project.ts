@@ -1,42 +1,51 @@
-import { useEffect } from "react";
-import useAsync from "./http-async";
-import { cleanObj} from "./index";
+
 import { useHttp } from "./http";
 import { IList } from "../screens/project-list/List";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export const useProject = (param?:Partial<IList>)=> {
    const client = useHttp();
-   return useQuery<IList[],Error>(['projects',param],()=> client('projects',{data:param}))
+   return useQuery<IList[]>(['projects',param],()=> client('projects',{data:param}))
 
 
 }
 
 export const useEditProject = ()=> {
-  const {run,...asyncResult} = useAsync()
   const client = useHttp()
-  const mutate =(params:Partial<IList>)=> {
+  const queryClient = useQueryClient()
 
-    return run(client(`projects/${params.id}`, {
-        method: "PATCH",
-        data: params,
-      }))
+  return useMutation((params:Partial<IList>)=>client(`projects/${params.id}`,{
+    method: 'PATCH',
+    data:params
+  }),{
+    //~类似于自动刷新功能
+    onSuccess:()=>queryClient.invalidateQueries('projects')
+  })
 
-  }
-
-  return{mutate,...asyncResult}
 }
 
 export const useAddProject = ()=> {
-  const {run,...asyncResult} = useAsync()
   const client = useHttp()
-  const mutate =(params:Partial<IList>)=> {
-    return run(client(`projects/${params.id}`,{
-      data:params,
-      method:'POST'
-    }))
+   const queryClient = useQueryClient()
 
-  }
+   return useMutation((params:Partial<IList>)=>client(`projects`,{
+     method: 'POST',
+    data:params
+   }),{
+    //~类似于自动刷新功能
+    onSuccess:()=>queryClient.invalidateQueries('projects')
+  })
 
-  return{mutate,...asyncResult}
+
+}
+
+export const useProjectDetail = (id?:number)=> {
+  const client  = useHttp()
+  return useQuery<IList>(['project',id],
+  ()=>client(`projects/${id}`),
+  //~useQuery的第三个参数一般都是配置项
+  //~当id不存在时步伐请求
+  {
+    enabled:!!id
+  })
 }

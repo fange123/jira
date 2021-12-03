@@ -9,9 +9,7 @@ interface IProps {}
 const ProjectPopover: React.FC<IProps> = (props) => {
   const { data: projects } = useProject();
   const { open } = useProjectModal();
-  const projectPin = projects?.filter((item: any) =>
-    item["14"] === "t" ? true : false
-  );
+  const projectPin = projects?.filter((item: any) => item.pin);
   const content = (
     <div>
       <Typography.Text type="secondary">收藏项目</Typography.Text>

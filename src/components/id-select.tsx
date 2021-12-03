@@ -3,8 +3,8 @@ import React from "react";
 import { Raw } from "../type/index";
 
 interface IProps extends Omit<SelectProps, "value" | "onChange" | "options"> {
-  value: Raw | undefined | null;
-  onChange: (value?: number) => void;
+  value?: Raw | undefined | null;
+  onChange?: (value?: number) => void;
   defaultOptionName?: string;
   options?: { name: string; id: number }[];
 }
@@ -21,7 +21,7 @@ const IdSelect: React.FC<IProps> = (props) => {
   return (
     <Select
       value={toNumber(value)}
-      onChange={(value) => onChange(Number(value) || undefined)}
+      onChange={(value) => onChange?.(Number(value) || undefined)}
       {...restProps}
     >
       {defaultOptionName ? (
