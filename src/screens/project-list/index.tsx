@@ -3,16 +3,15 @@ import SearchPanel from "./SearchPanel";
 // import { useDebounce } from "ahooks";
 import { useDebounce, useDocumentTitle } from "utils/index";
 import styled from "styled-components";
-import { Button, Typography } from "antd";
+import { Button } from "antd";
 import { useProject } from "utils/project";
 import { useUsers } from "utils/user";
 import { useProjectModal, useProjectsSearchParam } from "./utils";
-import { Row } from "components/lib";
+import { ErrorBox, Row } from "components/lib";
 
 interface IProps {}
 
 const ProjectListScreen = (props: IProps) => {
-  const { Text } = Typography;
   const [param, setParam] = useProjectsSearchParam();
   const { open } = useProjectModal();
 
@@ -31,7 +30,7 @@ const ProjectListScreen = (props: IProps) => {
         <Button onClick={open}>新建项目</Button>
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
-      {error ? <Text type="danger">{error.message}</Text> : null}
+      <ErrorBox error={error} />
       <List dataSource={list || []} users={users || []} loading={isLoading} />
     </Container>
   );

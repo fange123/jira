@@ -3,16 +3,12 @@ import useAsync from "./http-async";
 import { cleanObj} from "./index";
 import { useHttp } from "./http";
 import { IList } from "../screens/project-list/List";
+import { useQuery } from "react-query";
 
 export const useProject = (param?:Partial<IList>)=> {
    const client = useHttp();
-   const { run, error, ...result } = useAsync<IList[]>();
-    useEffect(() => {
-    run(client("projects", { data: cleanObj(param || {}) }));
-  }, [param,client,run]);
+   return useQuery<IList[],Error>(['projects',param],()=> client('projects',{data:param}))
 
-
-  return {error,...result}
 
 }
 

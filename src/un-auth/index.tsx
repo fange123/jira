@@ -7,6 +7,7 @@ import logo from "assets/logo.svg";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
 import { useDocumentTitle } from "utils";
+import { ErrorBox } from "components/lib";
 
 interface IProps {}
 
@@ -21,9 +22,7 @@ const Index: React.FC<IProps> = () => {
       <Header />
       <BoxShadowCard>
         <Title>{isRegister ? "请登录" : "请注册"}</Title>
-        <Typography.Text type="danger">
-          {error ? error.message : null}
-        </Typography.Text>
+        <ErrorBox error={error} />
         {isRegister ? (
           <Login onError={setError} />
         ) : (
