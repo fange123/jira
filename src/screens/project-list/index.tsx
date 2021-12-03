@@ -6,16 +6,15 @@ import styled from "styled-components";
 import { Button, Typography } from "antd";
 import { useProject } from "utils/project";
 import { useUsers } from "utils/user";
-import { useProjectsSearchParam } from "./utils";
+import { useProjectModal, useProjectsSearchParam } from "./utils";
 import { Row } from "components/lib";
 
-interface IProps {
-  buttonProject: JSX.Element;
-}
+interface IProps {}
 
 const ProjectListScreen = (props: IProps) => {
   const { Text } = Typography;
   const [param, setParam] = useProjectsSearchParam();
+  const { open } = useProjectModal();
 
   useDocumentTitle("项目列表", false);
   //自定义的hooks
@@ -29,16 +28,11 @@ const ProjectListScreen = (props: IProps) => {
     <Container>
       <Row between={true}>
         <h1>项目列表</h1>
-        {props.buttonProject}
+        <Button onClick={open}>新建项目</Button>
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       {error ? <Text type="danger">{error.message}</Text> : null}
-      <List
-        dataSource={list || []}
-        users={users || []}
-        loading={isLoading}
-        buttonProject={props.buttonProject}
-      />
+      <List dataSource={list || []} users={users || []} loading={isLoading} />
     </Container>
   );
 };

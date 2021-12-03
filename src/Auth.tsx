@@ -1,6 +1,6 @@
 import { Button, Dropdown, Menu } from "antd";
 import { useAuth } from "context/auth-context";
-import React, { useState } from "react";
+import React from "react";
 import ProjectListScreen from "./screens/project-list";
 import styled from "styled-components";
 import { ReactComponent as SoftWearLogo } from "assets/software-logo.svg";
@@ -15,7 +15,6 @@ import ProjectPopover from "./components/ProjectPopover";
 interface IProps {}
 
 const Auth: React.FC<IProps> = () => {
-  const [projectOpenModal, setProjectOpenModal] = useState<boolean>(false);
   const PageHeader = () => {
     return (
       <Header between>
@@ -23,17 +22,7 @@ const Auth: React.FC<IProps> = () => {
           <ButtonNoPadding type="link" onClick={resetRoute}>
             <SoftWearLogo width="18rem" color="rgb(38,132,255)" />
           </ButtonNoPadding>
-          <ProjectPopover
-            //*组件组合和状态提升，虽然都是一层层往下传，但是子组件只需要渲染得到的组件即可
-            buttonProject={
-              <ButtonNoPadding
-                type="link"
-                onClick={() => setProjectOpenModal(true)}
-              >
-                新增
-              </ButtonNoPadding>
-            }
-          />
+          <ProjectPopover />
         </HeaderLeft>
         <HeaderRight>
           <User />
@@ -62,34 +51,17 @@ const Auth: React.FC<IProps> = () => {
   };
   return (
     <Container>
-      <PageHeader />
-      <Main>
-        <Router>
+      <Router>
+        <PageHeader />
+        <Main>
           <Routes>
-            <Route
-              path="/projects"
-              element={
-                <ProjectListScreen
-                  buttonProject={
-                    <ButtonNoPadding
-                      type="link"
-                      onClick={() => setProjectOpenModal(true)}
-                    >
-                      创建项目
-                    </ButtonNoPadding>
-                  }
-                />
-              }
-            />
+            <Route path="/projects" element={<ProjectListScreen />} />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
             <Route path="/" element={<Navigate to="/projects" />} />
           </Routes>
-        </Router>
-      </Main>
-      <ProjectModal
-        projectOpenModal={projectOpenModal}
-        onClose={() => setProjectOpenModal(false)}
-      />
+        </Main>
+        <ProjectModal />
+      </Router>
     </Container>
   );
 };

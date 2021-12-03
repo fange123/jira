@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Pin from "components/pin";
 import { useEditProject } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
+import { useProjectModal } from "./utils";
 
 export interface IUsers {
   id: number;
@@ -22,12 +23,12 @@ export interface IList {
 }
 interface IProps extends TableProps<IList> {
   users: IUsers[];
-  buttonProject: JSX.Element;
 }
 const List = (props: IProps) => {
-  const { users, buttonProject, ...param } = props;
+  const { users, ...param } = props;
 
   const { mutate } = useEditProject();
+  const { open } = useProjectModal();
 
   //~这种写法叫做函数柯里化，在调用前期就知道的参数是id,在调用时知道的参数是pin
   const handleEdit = (id: number) => (pin: boolean) => mutate({ id, pin });
@@ -80,7 +81,11 @@ const List = (props: IProps) => {
           <Dropdown
             overlay={
               <Menu>
-                <Menu.Item key="edit">{buttonProject}</Menu.Item>
+                <Menu.Item key="edit">
+                  <ButtonNoPadding type="link" onClick={open}>
+                    编辑项目
+                  </ButtonNoPadding>
+                </Menu.Item>
               </Menu>
             }
           >

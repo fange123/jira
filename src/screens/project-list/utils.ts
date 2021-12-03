@@ -11,3 +11,24 @@ export const useProjectsSearchParam = ()=> {
   }), [param]),
   setParam
  ] as const;}
+
+
+ export const useProjectModal = ()=>{
+  const [{projectCreate},setProjectCreate] = useUrlQueryParam(['projectCreate'])
+  const open = ()=>setProjectCreate({projectCreate:true})
+  const close = ()=>setProjectCreate({projectCreate:false})
+
+  //+  返回三个活以内的值用tuple的方式比较好，因为可以随便命名，如下
+  // return [
+  //   projectCreate === 'true',
+  //   open,
+  //   close
+  // ] as const
+
+  //+ 但是，超过三个或以上，还要考虑某些值的解构问题，还是直接返回对象比较好
+  return {
+    projectModalOpen:projectCreate === 'true',
+    open,
+    close
+  }
+ }
