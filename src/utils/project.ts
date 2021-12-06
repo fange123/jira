@@ -19,7 +19,19 @@ export const useEditProject = ()=> {
     data:params
   }),{
     //~类似于自动刷新功能
-    onSuccess:()=>queryClient.invalidateQueries('projects')
+    onSuccess:()=>queryClient.invalidateQueries('projects'),
+  })
+
+}
+export const useDeleteProject = ()=> {
+  const client = useHttp()
+  const queryClient = useQueryClient()
+
+  return useMutation((params:Partial<IList>)=>client(`projects/${params.id}`,{
+    method: 'DELETE',
+  }),{
+    //~类似于自动刷新功能
+    onSuccess:()=>queryClient.invalidateQueries('projects'),
   })
 
 }

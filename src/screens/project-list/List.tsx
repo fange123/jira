@@ -1,9 +1,9 @@
-import { Dropdown, Menu, Table } from "antd";
+import { Dropdown, Menu, Modal, Table } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import Pin from "components/pin";
-import { useEditProject } from "utils/project";
+import { useDeleteProject, useEditProject } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
 import { useProjectModal } from "./utils";
 
@@ -29,11 +29,23 @@ const List = (props: IProps) => {
 
   const { mutate } = useEditProject();
   const { startEdit } = useProjectModal();
+  const { mutate: mutate_ } = useDeleteProject();
 
   //~这种写法叫做函数柯里化，在调用前期就知道的参数是id,在调用时知道的参数是pin
   const handleEdit = (id: number) => (pin: boolean) => mutate({ id, pin });
 
   const editProject = (id: number) => () => startEdit(id);
+  const deleteProject = (id: number) => () => {
+    Modal.confirm({
+      title: "确定删除吗？",
+      content: "点击删除",
+      okText: "确定",
+      cancelText: "取消",
+      onOk: () => {
+        mutate_({ id });
+      },
+    });
+  };
 
   const columns: ColumnsType<IList> = [
     {
@@ -91,7 +103,12 @@ const List = (props: IProps) => {
                 </Menu.Item>
 
                 <Menu.Item key="delete">
-                  <ButtonNoPadding type="link">删除</ButtonNoPadding>
+                  <ButtonNoPadding
+                    type="link"
+                    onClick={deleteProject(record.id)}
+                  >
+                    删除
+                  </ButtonNoPadding>
                 </Menu.Item>
               </Menu>
             }
