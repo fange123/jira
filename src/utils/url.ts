@@ -5,7 +5,8 @@ import { URLSearchParamsInit, useSearchParams } from "react-router-dom"
 import { cleanObj } from "utils"
 
 export const useUrlQueryParam = <K extends string>(keys:K[])=> {
-  const [searchParams,setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
+  const setSearchParams = useSetUrlSearchParams()
 
   return [
 
@@ -16,9 +17,7 @@ export const useUrlQueryParam = <K extends string>(keys:K[])=> {
     },{} as {[key in K] : string}), [searchParams]),
     (params:Partial<{[key in K]:unknown}>)=> {
 
-      //~Object.fromEntries把键值对转换成对象！不理解为毛要这样搞啊，等之后再来分析一下
-      const o =cleanObj({...Object.fromEntries(searchParams),...params}) as URLSearchParamsInit
-      return setSearchParams(o)
+      return setSearchParams(params)
 
     }
   ] as const
@@ -32,3 +31,14 @@ export const useUrlQueryParam = <K extends string>(keys:K[])=> {
 
 //*本来是想这个数组第一项是字符串，第二项是数字，第三项是对象，但是ts只能认为每一项都是string | number | object
 //*as const就是解决这个问题的
+
+export const useSetUrlSearchParams = ()=> {
+   const [searchParams,setSearchParams] = useSearchParams()
+
+   return (params:{[key in string]:unknown})=> {
+     const o =cleanObj({...Object.fromEntries(searchParams),...params}) as URLSearchParamsInit
+      return setSearchParams(o)
+
+   }
+
+}
