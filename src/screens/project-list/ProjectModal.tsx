@@ -22,11 +22,16 @@ const ProjectModal: React.FC<IProps> = (props) => {
     });
   };
 
+  const closeModal = () => {
+    form.resetFields();
+    close();
+  };
+
   useEffect(() => {
     form.setFieldsValue(editProject);
   }, [editProject, form]);
   return (
-    <Drawer visible={projectModalOpen} width="100%" onClose={close}>
+    <Drawer visible={projectModalOpen} width="100%" onClose={closeModal}>
       <Container>
         {isLoading ? (
           <Spin size="large" />
