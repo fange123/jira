@@ -6,21 +6,9 @@ import Pin from "components/pin";
 import { useDeleteProject, useEditProject } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
 import { useProjectModal } from "./utils";
+import { IList } from "type/project";
+import { IUsers } from "type/user";
 
-export interface IUsers {
-  id: number;
-  name: string;
-  token: string;
-}
-export interface IList {
-  id: number;
-  key: number;
-  name: string;
-  personId: number;
-  organization: string;
-  created: string;
-  pin: boolean;
-}
 interface IProps extends TableProps<IList> {
   users: IUsers[];
 }

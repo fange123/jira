@@ -1,5 +1,5 @@
 import {MY_TOKEN} from './utils/constant'
-import {IUsers} from './screens/project-list/List'
+import { IUsers } from "type/user";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 

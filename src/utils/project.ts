@@ -1,6 +1,6 @@
 
 import { useHttp } from "./http";
-import { IList } from "../screens/project-list/List";
+import { IList } from "type/project";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export const useProject = (param?:Partial<IList>)=> {

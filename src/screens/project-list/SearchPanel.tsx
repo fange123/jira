@@ -1,5 +1,6 @@
 import { Form, Input } from "antd";
-import { IList, IUsers } from "./List";
+import { IUsers } from "type/user";
+import { IList } from "type/project";
 import UserSelect from "components/user-select";
 
 interface IProps {

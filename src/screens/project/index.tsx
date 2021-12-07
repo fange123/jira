@@ -14,7 +14,7 @@ const Index: React.FC<IProps> = (props) => {
       <Routes>
         <Route path="/kanban" element={<KanBanScreen />} />
         <Route path="/epic" element={<EpicScreen />} />
-        <Route path="/*" element={<Navigate to="kanban" />} />
+        <Route path="/*" element={<Navigate to="kanban" replace={true} />} />
       </Routes>
     </>
   );

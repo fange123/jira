@@ -5,7 +5,7 @@ import { useMount } from "utils";
 import { initialUser } from "utils/http";
 import useAsync from "utils/http-async";
 import * as auth from "../auth-provider";
-import { IUsers } from "../screens/project-list/List";
+import { IUsers } from "type/user";
 
 interface User {
   password: string;
