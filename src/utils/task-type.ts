@@ -1,4 +1,4 @@
-import {ITaskType} from 'type/taskTypes';
+import {ITaskType} from 'type/taskType';
 import { useHttp } from "./http";
 import {  useQuery } from "react-query";
 

@@ -4,6 +4,7 @@ import { useKanban } from "utils/kanban";
 import { useKanBanSearchParams, useProjectInUrl } from "./utils";
 import KanbanColumn from "./KanbanColumn";
 import styled from "styled-components";
+import SearchPanel from "./SearchPanel";
 
 interface IProps {}
 
@@ -14,6 +15,7 @@ const KanBanScreen: React.FC<IProps> = (props) => {
   return (
     <div>
       <h1>{currentProjects?.name}看板</h1>
+      <SearchPanel />
       <KanBanContainer>
         {kanbans?.map((item) => (
           <KanbanColumn key={item.id} kanban={item} />

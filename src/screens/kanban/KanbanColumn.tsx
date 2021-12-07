@@ -25,7 +25,9 @@ const KanbanColumn: React.FC<IProps> = (props) => {
     return <img alt={"task-icon"} src={name === "task" ? taskIcon : bugIcon} />;
   };
 
-  const tasks = allTasks?.filter((task) => task.id === kanban.id);
+  const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
+  console.log(tasks);
+
   return (
     <Container>
       <h3>{kanban.name}</h3>
