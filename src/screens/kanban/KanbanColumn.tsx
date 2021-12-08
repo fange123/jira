@@ -7,6 +7,7 @@ import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
 import styled from "styled-components";
 import { Card } from "antd";
+import CreateTask from "./CreateTask";
 
 interface IProps {
   kanban: IKanBan;
@@ -26,7 +27,6 @@ const KanbanColumn: React.FC<IProps> = (props) => {
   };
 
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
-  console.log(tasks);
 
   return (
     <Container>
@@ -38,6 +38,7 @@ const KanbanColumn: React.FC<IProps> = (props) => {
             <TaskTypeIcon id={task.typeId} />
           </Card>
         ))}
+        <CreateTask kanbanId={kanban.id} />
       </TaskContainer>
     </Container>
   );
@@ -45,7 +46,7 @@ const KanbanColumn: React.FC<IProps> = (props) => {
 
 export default KanbanColumn;
 
-const Container = styled.div`
+export const Container = styled.div`
   min-width: 27rem;
   border-radius: 6px;
   background-color: rgba(244, 245, 247);
