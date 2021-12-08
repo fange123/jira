@@ -30,7 +30,7 @@ const KanbanColumn: React.FC<IProps> = (props) => {
 
   return (
     <Container>
-      <h3>{kanban.name}</h3>
+      <h3>{kanban?.name}</h3>
       <TaskContainer>
         {tasks?.map((task) => (
           <Card style={{ marginBottom: ".5rem" }} key={task.id}>

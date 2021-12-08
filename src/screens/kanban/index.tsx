@@ -5,6 +5,7 @@ import { useKanBanSearchParams, useProjectInUrl } from "./utils";
 import KanbanColumn from "./KanbanColumn";
 import styled from "styled-components";
 import SearchPanel from "./SearchPanel";
+import { ScreenContainer } from "components/lib";
 
 interface IProps {}
 
@@ -13,7 +14,7 @@ const KanBanScreen: React.FC<IProps> = (props) => {
   const { data: kanbans } = useKanban(useKanBanSearchParams());
   const { data: currentProjects } = useProjectInUrl();
   return (
-    <div>
+    <ScreenContainer>
       <h1>{currentProjects?.name}看板</h1>
       <SearchPanel />
       <KanBanContainer>
@@ -21,7 +22,7 @@ const KanBanScreen: React.FC<IProps> = (props) => {
           <KanbanColumn key={item.id} kanban={item} />
         ))}
       </KanBanContainer>
-    </div>
+    </ScreenContainer>
   );
 };
 
@@ -29,4 +30,6 @@ export default KanBanScreen;
 
 export const KanBanContainer = styled.div`
   display: flex;
+  overflow-x: scroll;
+  flex: 1;
 `;
