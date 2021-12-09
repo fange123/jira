@@ -31,7 +31,12 @@ const ProjectModal: React.FC<IProps> = (props) => {
     form.setFieldsValue(editProject);
   }, [editProject, form]);
   return (
-    <Drawer visible={projectModalOpen} width="100%" onClose={closeModal}>
+    <Drawer
+      visible={projectModalOpen}
+      width="100%"
+      onClose={closeModal}
+      getContainer={false}
+    >
       <Container>
         {isLoading ? (
           <Spin size="large" />

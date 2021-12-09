@@ -6,6 +6,7 @@ import {
   useProjectInUrl,
   useTaskSearchParams,
 } from "./utils";
+
 import KanbanColumn from "./KanbanColumn";
 import styled from "styled-components";
 import SearchPanel from "./SearchPanel";
@@ -25,6 +26,7 @@ const KanBanScreen: React.FC<IProps> = (props) => {
   const { isLoading: taskIsLoading } = useTask(useTaskSearchParams());
 
   const isLoading = kanbanIsLoading || taskIsLoading;
+
   return (
     <ScreenContainer>
       <h1>{currentProjects?.name}看板</h1>

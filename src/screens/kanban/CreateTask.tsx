@@ -27,6 +27,7 @@ const CreateTask: React.FC<IProps> = (props) => {
       setName("");
     }
   }, [inputMode]);
+
   if (!inputMode) {
     return <div onClick={toggle}>+创建事物</div>;
   }

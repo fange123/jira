@@ -23,3 +23,29 @@ export const useAddTask = (queryKey: QueryKey)=> {
 
 
 }
+
+export const useTaskDetail = (id?:number)=> {
+  const client  = useHttp()
+  return useQuery<ITask>(['task',id],
+  ()=>client(`tasks/${id}`),
+  //~useQuery的第三个参数一般都是配置项
+  //~当id不存在时步伐请求
+  {
+    enabled:!!id
+  })
+}
+
+
+export const useEditTask = (queryKey: QueryKey)=> {
+  const client = useHttp()
+  const queryClient = useQueryClient()
+
+  return useMutation((params:Partial<ITask>) =>client(`tasks/${params.id}`,{
+    method: 'PATCH',
+    data:params
+  }),{
+    //~类似于自动刷新功能
+    onSuccess:()=>queryClient.invalidateQueries(queryKey),
+  })
+
+}
