@@ -49,3 +49,16 @@ export const useEditTask = (queryKey: QueryKey)=> {
   })
 
 }
+
+export const useDeleteTask = (queryKey: QueryKey)=> {
+  const client = useHttp()
+  const queryClient = useQueryClient()
+
+  return useMutation((params:Partial<ITask>)=>client(`tasks/${params.id}`,{
+    method: 'DELETE',
+  }),{
+    //~类似于自动刷新功能
+    onSuccess:()=>queryClient.invalidateQueries(queryKey),
+  })
+
+}

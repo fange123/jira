@@ -2,15 +2,17 @@ import React from "react";
 import { IKanBan } from "type/kanban";
 import { useTask } from "utils/task";
 import { useTaskTypes } from "utils/task-type";
-import { useTaskModal, useTaskSearchParams } from "./utils";
+import { useKanBanQueryKey, useTaskModal, useTaskSearchParams } from "./utils";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
 import styled from "styled-components";
-import { Card } from "antd";
+import { Button, Card, Dropdown, Menu, Modal } from "antd";
 import CreateTask from "./CreateTask";
 import TaskModal from "./TaskModal";
 import { ITask } from "type/task";
 import Mask from "components/Mask";
+import { useDeleteKanbans } from "utils/kanban";
+import { Row } from "components/lib";
 
 interface IProps {
   kanban: IKanBan;
@@ -31,6 +33,36 @@ const KanbanColumn: React.FC<IProps> = (props) => {
     return <img alt={"task-icon"} src={name === "task" ? taskIcon : bugIcon} />;
   };
 
+  const More = ({ kanban }: { kanban: IKanBan }) => {
+    const { mutateAsync } = useDeleteKanbans(useKanBanQueryKey());
+    const startEdit = () => {
+      Modal.confirm({
+        okText: "确定",
+        cancelText: "取消",
+        title: "确定删除看板吗？",
+        onOk() {
+          return mutateAsync({ id: kanban.id });
+        },
+      });
+    };
+    const overlay = () => {
+      return (
+        <Menu>
+          <Menu.Item>
+            <Button onClick={startEdit} type="link">
+              删除
+            </Button>
+          </Menu.Item>
+        </Menu>
+      );
+    };
+    return (
+      <Dropdown overlay={overlay}>
+        <Button type="link">...</Button>
+      </Dropdown>
+    );
+  };
+
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
   const taskCard = ({ task }: { task: ITask }) => {
     return (
@@ -39,7 +71,9 @@ const KanbanColumn: React.FC<IProps> = (props) => {
         key={task.id}
         onClick={() => startTask(task.id)}
       >
-        <Mask name={task.name} keywords={keywords} />
+        <p>
+          <Mask name={task.name} keywords={keywords} />
+        </p>
         <TaskTypeIcon id={task.typeId} />
       </Card>
     );
@@ -47,7 +81,10 @@ const KanbanColumn: React.FC<IProps> = (props) => {
 
   return (
     <Container>
-      <h3>{kanban?.name}</h3>
+      <Row between={true}>
+        <h3>{kanban?.name}</h3>
+        <More kanban={kanban} />
+      </Row>
       <TaskContainer>
         {tasks?.map((task) => taskCard({ task }))}
         <CreateTask kanbanId={kanban.id} />

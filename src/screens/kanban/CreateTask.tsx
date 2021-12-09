@@ -29,7 +29,11 @@ const CreateTask: React.FC<IProps> = (props) => {
   }, [inputMode]);
 
   if (!inputMode) {
-    return <div onClick={toggle}>+创建事物</div>;
+    return (
+      <div onClick={toggle} style={{ cursor: "pointer" }}>
+        +创建事物
+      </div>
+    );
   }
 
   return (

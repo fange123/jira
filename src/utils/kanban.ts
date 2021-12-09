@@ -23,3 +23,16 @@ export const useAddKanban = (queryKey: QueryKey)=> {
 
 
 }
+
+export const useDeleteKanbans = (queryKey: QueryKey)=> {
+  const client = useHttp()
+  const queryClient = useQueryClient()
+
+  return useMutation((params:Partial<IKanBan>)=>client(`kanbans/${params.id}`,{
+    method: 'DELETE',
+  }),{
+    //~类似于自动刷新功能
+    onSuccess:()=>queryClient.invalidateQueries(queryKey),
+  })
+
+}
