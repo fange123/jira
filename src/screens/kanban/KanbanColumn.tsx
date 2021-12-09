@@ -9,6 +9,8 @@ import styled from "styled-components";
 import { Card } from "antd";
 import CreateTask from "./CreateTask";
 import TaskModal from "./TaskModal";
+import { ITask } from "type/task";
+import Mask from "components/Mask";
 
 interface IProps {
   kanban: IKanBan;
@@ -18,6 +20,7 @@ const KanbanColumn: React.FC<IProps> = (props) => {
   const { kanban } = props;
   const { data: allTasks } = useTask(useTaskSearchParams());
   const { startTask } = useTaskModal();
+  const { name: keywords } = useTaskSearchParams();
 
   const TaskTypeIcon = ({ id }: { id: number }) => {
     const { data: taskTypes } = useTaskTypes();
@@ -29,21 +32,24 @@ const KanbanColumn: React.FC<IProps> = (props) => {
   };
 
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
+  const taskCard = ({ task }: { task: ITask }) => {
+    return (
+      <Card
+        style={{ marginBottom: ".5rem", cursor: "pointer" }}
+        key={task.id}
+        onClick={() => startTask(task.id)}
+      >
+        <Mask name={task.name} keywords={keywords} />
+        <TaskTypeIcon id={task.typeId} />
+      </Card>
+    );
+  };
 
   return (
     <Container>
       <h3>{kanban?.name}</h3>
       <TaskContainer>
-        {tasks?.map((task) => (
-          <Card
-            style={{ marginBottom: ".5rem", cursor: "pointer" }}
-            key={task.id}
-            onClick={() => startTask(task.id)}
-          >
-            <div>{task.name}</div>
-            <TaskTypeIcon id={task.typeId} />
-          </Card>
-        ))}
+        {tasks?.map((task) => taskCard({ task }))}
         <CreateTask kanbanId={kanban.id} />
       </TaskContainer>
       <TaskModal />

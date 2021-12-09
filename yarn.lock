@@ -8548,6 +8548,16 @@ normalize-url@^4.1.0:
   resolved "https://registry.nlark.com/normalize-url/download/normalize-url-4.5.1.tgz"
   integrity sha1-DdkM8SiO4dExO4cIHJpZMu5IUYo=
 
+nornj-react@^5.3.4:
+  version "5.3.4"
+  resolved "https://registry.npmmirror.com/nornj-react/download/nornj-react-5.3.4.tgz#e0267c67f2b60eb8869c8b89999bd3b621fa82c9"
+  integrity sha1-4CZ8Z/K2DriGnIuJmZvTtiH6gsk=
+
+nornj@^5.3.4:
+  version "5.3.4"
+  resolved "https://registry.npmmirror.com/nornj/download/nornj-5.3.4.tgz#e22215067e371b59f0874146851c768f25ad73f4"
+  integrity sha1-4iIVBn43G1nwh0FGhRx2jyWtc/Q=
+
 npm-run-path@^2.0.0:
   version "2.0.2"
   resolved "https://registry.npmjs.org/npm-run-path/-/npm-run-path-2.0.2.tgz"
