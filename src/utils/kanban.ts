@@ -36,3 +36,31 @@ export const useDeleteKanbans = (queryKey: QueryKey)=> {
   })
 
 }
+
+export interface SortProps {
+  //*要重新排序的item
+  referenceId:number
+  //*目标 item
+  fromId:number
+  //*放到前面还是后面
+  type:'before'|'after',
+  fromKanbanId?:number
+  toKanbanId?:number
+
+}
+
+export const useReorderKanban = (queryKey: QueryKey)=> {
+  const client = useHttp()
+   const queryClient = useQueryClient()
+  return useMutation((params:SortProps)=> {
+    return client('kanbans/reorder',{
+      data:params,
+      method: 'POST',
+
+    })
+  },{
+    //~类似于自动刷新功能
+    onSuccess:()=>queryClient.invalidateQueries(queryKey),
+  })
+
+}

@@ -1,6 +1,7 @@
 import {ITask} from 'type/task';
 import { useHttp } from "./http";
 import {  QueryKey, useMutation, useQuery, useQueryClient } from "react-query";
+import { SortProps } from './kanban';
 
 export const useTask = (param?:Partial<ITask>)=> {
    const client = useHttp();
@@ -57,6 +58,22 @@ export const useDeleteTask = (queryKey: QueryKey)=> {
   return useMutation((params:Partial<ITask>)=>client(`tasks/${params.id}`,{
     method: 'DELETE',
   }),{
+    //~类似于自动刷新功能
+    onSuccess:()=>queryClient.invalidateQueries(queryKey),
+  })
+
+}
+
+export const useReorderTask= (queryKey: QueryKey)=> {
+  const client = useHttp()
+  const queryClient = useQueryClient()
+  return useMutation((params:SortProps)=> {
+    return client('tasks/reorder',{
+      data:params,
+      method: 'POST'
+    })
+
+  },{
     //~类似于自动刷新功能
     onSuccess:()=>queryClient.invalidateQueries(queryKey),
   })
