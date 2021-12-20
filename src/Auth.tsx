@@ -11,6 +11,7 @@ import ProjectScreen from "./screens/project";
 import { resetRoute } from "utils";
 import ProjectModal from "./screens/project-list/ProjectModal";
 import ProjectPopover from "./components/ProjectPopover";
+import UserPopover from "./components/UserPopover";
 
 interface IProps {}
 
@@ -23,6 +24,7 @@ const Auth: React.FC<IProps> = () => {
             <SoftWearLogo width="18rem" color="rgb(38,132,255)" />
           </ButtonNoPadding>
           <ProjectPopover />
+          <UserPopover />
         </HeaderLeft>
         <HeaderRight>
           <User />
